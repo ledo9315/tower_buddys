@@ -1126,6 +1126,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8721381520501442212, guid: 22d50b269aa434647a40236e9677a860, type: 3}
   m_PrefabInstance: {fileID: 246110947}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &246447082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 246447083}
+  m_Layer: 0
+  m_Name: Enemys
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &246447083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246447082}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 43.207527, y: 3.2403111, z: 11.296949}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &265409194
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2756,6 +2787,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8721381520501442212, guid: 22d50b269aa434647a40236e9677a860, type: 3}
   m_PrefabInstance: {fileID: 759871813}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &796591443
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 796591444}
+  m_Layer: 0
+  m_Name: Turrets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &796591444
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796591443}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 43.207527, y: 3.2403111, z: 11.296949}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &839307792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6134,3 +6196,5 @@ SceneRoots:
   - {fileID: 1715675069}
   - {fileID: 1101475912}
   - {fileID: 2023511145}
+  - {fileID: 796591444}
+  - {fileID: 246447083}

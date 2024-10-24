@@ -381,6 +381,8 @@
 "Assets/Dosenwerfen/Scripts/DrawColliderBoundingBox.cs"
 "Assets/Dosenwerfen/Scripts/ResetRig.cs"
 "Assets/Dosenwerfen/Scripts/Spawner.cs"
+"Assets/LivesUI.cs"
+"Assets/MoneyUI.cs"
 "Assets/PlayerStats.cs"
 "Assets/Scripts/BuildManager.cs"
 "Assets/Scripts/Bullet.cs"

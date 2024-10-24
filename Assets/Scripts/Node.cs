@@ -4,7 +4,8 @@ using UnityEngine.Serialization;
 
 public class Node : MonoBehaviour
 {
-    public Color hoverColor;
+    [SerializeField] private Color hoverColor;
+    [SerializeField] private Color notEnoughMoneyColor;
     [SerializeField] private Vector3 possitionOffset;
     [Header("Optional")]
     [FormerlySerializedAs("_turret")] public GameObject turret;
@@ -50,8 +51,7 @@ public class Node : MonoBehaviour
     {
         if (EventSystem.current.IsPointerOverGameObject()) return;
         if(!buildManager.CanBuild) return;
-
-        _rend.material.color = hoverColor;
+        _rend.material.color = buildManager.HasMoney ? hoverColor : notEnoughMoneyColor;
     }
 
     private void OnMouseExit()

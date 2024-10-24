@@ -23,6 +23,7 @@
         }
         
         _countdown -= Time.deltaTime;
+        _countdown = Mathf.Clamp(_countdown, 0f, Mathf.Infinity);
         waveCountdown.text = Mathf.Round(_countdown).ToString(CultureInfo.CurrentCulture);
     }
 

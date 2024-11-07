@@ -109,6 +109,7 @@
 -define:ENABLE_UNITY_COLLECTIONS_CHECKS
 -define:ENABLE_BURST_AOT
 -define:UNITY_TEAM_LICENSE
+-define:UNITY_PRO_LICENSE
 -define:ENABLE_CUSTOM_RENDER_TEXTURE
 -define:ENABLE_DIRECTOR
 -define:ENABLE_LOCALIZATION
@@ -328,6 +329,9 @@
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.23f1/Editor/Data/NetStandard/compat/2.1.0/shims/netstandard/System.Xml.XPath.XDocument.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.23f1/Editor/Data/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.23f1/Editor/Data/NetStandard/ref/2.1.0/netstandard.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/2022.3.23f1/Editor/Data/PlaybackEngines/AndroidPlayer/Unity.Android.Gradle.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/2022.3.23f1/Editor/Data/PlaybackEngines/AndroidPlayer/Unity.Android.GradleProject.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/2022.3.23f1/Editor/Data/PlaybackEngines/AndroidPlayer/Unity.Android.Types.dll"
 -r:"Library/PackageCache/com.unity.testtools.codecoverage@1.2.5/lib/ReportGenerator/ReportGeneratorMerged.dll"
 -r:"Library/PackageCache/com.unity.visualscripting@1.9.2/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.EditorCoroutines.Editor.ref.dll"
@@ -381,19 +385,20 @@
 "Assets/Dosenwerfen/Scripts/DrawColliderBoundingBox.cs"
 "Assets/Dosenwerfen/Scripts/ResetRig.cs"
 "Assets/Dosenwerfen/Scripts/Spawner.cs"
-"Assets/LivesUI.cs"
-"Assets/MoneyUI.cs"
-"Assets/PlayerStats.cs"
 "Assets/Scripts/BuildManager.cs"
 "Assets/Scripts/Bullet.cs"
 "Assets/Scripts/Enemy.cs"
+"Assets/Scripts/LivesUI.cs"
+"Assets/Scripts/MoneyUI.cs"
 "Assets/Scripts/Node.cs"
 "Assets/Scripts/NodeClicker.cs"
 "Assets/Scripts/PC_Camera_Movement.cs"
+"Assets/Scripts/PlayerStats.cs"
 "Assets/Scripts/Shop.cs"
 "Assets/Scripts/TestScript.cs"
 "Assets/Scripts/Turret.cs"
 "Assets/Scripts/TurretBlueprint.cs"
+"Assets/Scripts/TurretVrPlayer.cs"
 "Assets/Scripts/WaveSpawner.cs"
 "Assets/Scripts/Waypoints.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"

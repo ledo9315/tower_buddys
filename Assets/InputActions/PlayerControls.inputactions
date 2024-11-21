@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Up",
+                    "name": "Action",
                     "type": "Button",
                     "id": "b8469595-1459-49e3-8cb7-3e8833c95ec3",
                     "expectedControlType": "",
@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Down",
+                    "name": "Option",
                     "type": "Button",
                     "id": "61cdfa7a-fcde-48d7-93f2-623b306afd21",
                     "expectedControlType": "",
@@ -118,7 +118,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Up",
+                    "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -129,7 +129,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Up",
+                    "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -140,7 +140,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Down",
+                    "action": "Option",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -151,7 +151,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Down",
+                    "action": "Option",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

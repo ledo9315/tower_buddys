@@ -6,7 +6,7 @@ public class Node : MonoBehaviour
 {
     [SerializeField] private Color hoverColor;
     [SerializeField] private Color notEnoughMoneyColor;
-    [SerializeField] private Vector3 possitionOffset;
+    [SerializeField] private Vector3 positionOffset;
     [Header("Optional")]
     [FormerlySerializedAs("_turret")] public GameObject turret;
     private Renderer _rend;
@@ -21,11 +21,27 @@ public class Node : MonoBehaviour
         buildManager = BuildManager.Instance;
     }
 
-    public Vector3 GetBuildPosition()
-    {
-        return transform.position + possitionOffset;
+    public void NodeIsSelected() {
+        _rend.material.color = buildManager.HasMoney ? hoverColor : notEnoughMoneyColor;
     }
 
+    public void NodeIsNotSelected() {
+        _rend.material.color = _startColor;
+    }
+
+    public void TryBuilding()
+    {
+        if (!buildManager.CanBuild) return; //Ist schon ein Turm ausgewählt?
+        if (turret != null) return;         //Ist schon ein Turm gebaut?
+
+        buildManager.BuildTurretOn(this);   //Alle Checks durch, baue Turm
+    }
+    public Vector3 GetBuildPosition()
+    {
+        return transform.position + positionOffset;
+    }
+
+    /*
     private void OnMouseDown()
     {
         if (EventSystem.current.IsPointerOverGameObject()) return;
@@ -47,6 +63,8 @@ public class Node : MonoBehaviour
         // }
     }
 
+
+
     private void OnMouseEnter()
     {
         if (EventSystem.current.IsPointerOverGameObject()) return;
@@ -57,5 +75,5 @@ public class Node : MonoBehaviour
     private void OnMouseExit()
     {
         _rend.material.color = _startColor;
-    }
+    } */
 }

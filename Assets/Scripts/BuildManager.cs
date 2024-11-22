@@ -19,12 +19,12 @@ public class BuildManager : MonoBehaviour
     public bool CanBuild => turretToBuild != null;
     public bool HasMoney => PlayerStats.Money >= turretToBuild.cost;
 
-    public void BuildTurretOn(Node node)
+    public bool BuildTurretOn(Node node)
     {
         if (PlayerStats.Money < turretToBuild.cost)
         {
             Debug.Log("Not enough money");
-            return;
+            return false;
         }
 
         PlayerStats.Money -= turretToBuild.cost;
@@ -33,6 +33,7 @@ public class BuildManager : MonoBehaviour
         node.turret = turret;
 
         Debug.Log("Turret build! Money left: " + PlayerStats.Money);
+        return true;
     }
 
     public void SelectTurretToBuild(TurretBlueprint turret)

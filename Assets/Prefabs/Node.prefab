@@ -118,7 +118,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d276840b50f3ea4d90fe819954cd411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0}
+  selectColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
+  notSelectColor: {r: 1, g: 1, b: 1, a: 0}
   notEnoughMoneyColor: {r: 0.7924528, g: 0.35510856, b: 0.35510856, a: 0}
-  possitionOffset: {x: 0, y: 0.5, z: 0}
+  isMoneyColor: {r: 0.8584906, g: 0.65729845, b: 0.08503916, a: 1}
+  isAmmunitionColor: {r: 0, g: 0.509434, b: 0.09897133, a: 0}
+  isBonusColor: {r: 0.9275037, g: 1, b: 0, a: 0}
+  positionOffset: {x: 0, y: 0, z: 0}
   turret: {fileID: 0}

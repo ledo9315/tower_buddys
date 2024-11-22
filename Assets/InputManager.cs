@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
@@ -30,10 +31,18 @@ public class InputManager : MonoBehaviour
 
 
         //Wert wird auf Int gerundet, um evtl. Joystick-Probleme zu umgehen.
-        int xVal = (int)Math.Round(mvValFloat.x);
-        int yVal = (int)Math.Round(mvValFloat.y);
+        //int xVal = (int)Math.Round(mvValFloat.x);
+        //int yVal = (int)Math.Round(mvValFloat.y);
+        int xVal = 0;
+        int yVal = 0;
+
+        if (Mathf.Abs(mvValFloat.x) > 0.05) xVal = mvValFloat.x > 0 ? (int)Math.Ceiling(mvValFloat.x) : (int)Math.Floor(mvValFloat.x);
+        if (Mathf.Abs(mvValFloat.y) > 0.05) yVal = mvValFloat.y > 0 ? (int)Math.Ceiling(mvValFloat.y) : (int)Math.Floor(mvValFloat.y);
+
         Vector2Int mvValInt = new Vector2Int(xVal, yVal);
 
+        Debug.Log("Float x: " + mvValFloat.x + " Int x: " + xVal);
+        Debug.Log("Float Y: " + mvValFloat.y + " Int y: " + yVal);
 
         //Läuft das Game und existiert der Nodemanager, so wird die neue Node ausgewählt
         if (_inRunningGame && nodeManager != null) nodeManager.SelectNewNode(mvValInt);

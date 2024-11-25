@@ -18,8 +18,14 @@ public class Node : MonoBehaviour
     [FormerlySerializedAs("_turret")] public GameObject turret;
 
     private Renderer _rend;
-    private enum NodeMode { IsEmpty, IsSelect, IsBuilt, NotEnoughMoney, IsMoney, IsAmmunition, IsBonus };
+
+    //NodeMode ist auch in NodeManager.cs. Wenn das hier geändert wird, muss NodeManager.cs angepasst werden!
+    //Mir fällt keine gute Art und Weise ein, NodeMode nur im NodeManager zu haben.
+    //TODO: Irgendwann umschreiben, sodass Node.cs diesen Enum nicht hält
+    private enum NodeMode { IsEmpty = 0, IsSelect = 1, IsBuilt = 2, NotEnoughMoney = 3, IsMoney = 4 , IsAmmunition = 5, IsBonus = 6};
     private NodeMode _mode = NodeMode.IsEmpty;
+
+
     private BuildManager buildManager;
 
     private void Start()
@@ -109,5 +115,9 @@ public class Node : MonoBehaviour
     public Vector3 GetBuildPosition()
     {
         return transform.position + positionOffset;
+    }
+
+    public int GetCurrMode() {
+        return (int)_mode;
     }
 }

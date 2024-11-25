@@ -6,21 +6,66 @@ public class Turret : MonoBehaviour
     private float _fireCountdown = 0f;
     
     [Header("Attributes")]
-    
     [SerializeField] private float range = 15f;
     [SerializeField] private float fireRate = 1f;
+    [SerializeField] private float fieldOfView = 30f; // Sichtfeld (Grad)
     
     [Header("Unity Setup Fields")]
-    
     public string enemyTag = "Enemy";
-    [SerializeField] private Transform partToRotate;
+
+    [SerializeField] private Transform GeneralTurretRotation;
+    [SerializeField] private Transform ActiveTurretRotation;
     [SerializeField] private float turnSpeed = 10f;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
+
+    // LineRenderer für den Bereich
+    private LineRenderer lineRenderer;
+
     private void Start()
     {
-        InvokeRepeating(nameof(UpdateTarget), 0f, 0.5f);
+        // Erstelle und konfiguriere den LineRenderer
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = Color.yellow;
+        lineRenderer.endColor = Color.yellow;
+        lineRenderer.loop = true; // Kreis schließen
+
+        InvokeRepeating(nameof(UpdateTarget), 0f, 0.1f);
+
+        // Zeichne den Sichtbereich
+        DrawFieldOfView();
+    }
+
+    private void Update()
+    {
+        if (lineRenderer != null)
+        {
+            DrawFieldOfView();
+        }
+
+        if (!target) return;
+
+        Vector3 dir = target.position - transform.position;
+        dir.y = 0; // Höhe ignorieren, damit der Turm sich nur horizontal dreht
+
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        ActiveTurretRotation.rotation = Quaternion.Slerp(
+            ActiveTurretRotation.rotation, 
+            lookRotation, 
+            Time.deltaTime * turnSpeed
+        );
+
+        if (_fireCountdown <= 0f)
+        {
+            Shoot();
+            _fireCountdown = 1f / fireRate;
+        }
+
+        _fireCountdown -= Time.deltaTime;
     }
 
     private void UpdateTarget()
@@ -32,14 +77,20 @@ public class Turret : MonoBehaviour
         foreach (var enemy in enemies)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distanceToEnemy < shortestDistance)
+            if (distanceToEnemy > range) continue;
+
+            Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
+            Vector3 forwardDirection = GeneralTurretRotation.forward;
+            float angleToEnemy = Vector3.Angle(forwardDirection, directionToEnemy);
+
+            if (angleToEnemy <= fieldOfView && distanceToEnemy < shortestDistance)
             {
                 shortestDistance = distanceToEnemy;
                 nearestEnemy = enemy;
             }
         }
 
-        if (nearestEnemy != null && shortestDistance <= range)
+        if (nearestEnemy != null)
         {
             target = nearestEnemy.transform;
         }
@@ -47,32 +98,6 @@ public class Turret : MonoBehaviour
         {
             target = null;
         }
-        
-    }
-
-    private void Update()
-    {
-        if (!target) return;
-
-        Vector3 dir = target.position - transform.position;
-        dir.y = 0;  // Höhe ignorieren, damit der Turm sich nur horizontal dreht
-
-        // Berechne die Rotation in Richtung des Ziels
-        Quaternion lookRotation = Quaternion.LookRotation(dir);
-
-        // Wende einen Rotations-Offset an, falls nötig
-        Quaternion rotationWithOffset = lookRotation * Quaternion.Euler(0f, 90f, 0f);  // Passe 90f je nach Ausrichtung an
-
-        // Setze die Rotation nur auf der Y-Achse
-        partToRotate.rotation = Quaternion.Slerp(partToRotate.rotation, rotationWithOffset, Time.deltaTime * turnSpeed);
-
-        if (_fireCountdown <= 0f)
-        {
-            Shoot();
-            _fireCountdown = 1f / fireRate;
-        }
-
-        _fireCountdown -= Time.deltaTime;
     }
 
     void Shoot()
@@ -86,10 +111,34 @@ public class Turret : MonoBehaviour
         }
     }
 
-
-    private void OnDrawGizmosSelected()
+    private void DrawFieldOfView()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, range);
+        // Berechne die Punkte des Sichtkegels
+        int segments = 50; // Anzahl der Liniensegmente
+        float angleStep = fieldOfView * 2 / segments;
+        Vector3[] points = new Vector3[segments + 2]; // Zusätzlicher Punkt für die Mitte + letzter Punkt für den Abschluss
+
+        points[0] = GeneralTurretRotation.position; // Das Zentrum des Sichtkegels basiert auf GeneralTurretRotation
+
+        for (int i = 0; i <= segments; i++)
+        {
+            // Berechne den lokalen Winkel
+            float angle = -fieldOfView + i * angleStep;
+            float rad = Mathf.Deg2Rad * angle;
+
+            // Erstelle eine lokale Richtung basierend auf dem Winkel
+            Vector3 localDirection = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad));
+
+            // Transformiere die lokale Richtung basierend auf der Rotation von GeneralTurretRotation
+            Vector3 worldDirection = GeneralTurretRotation.TransformDirection(localDirection);
+
+            // Berechne die Endposition des Liniensegments
+            points[i + 1] = GeneralTurretRotation.position + worldDirection * range;
+        }
+
+        // Setze die Punkte für den LineRenderer
+        lineRenderer.positionCount = points.Length;
+        lineRenderer.SetPositions(points);
     }
+
 }

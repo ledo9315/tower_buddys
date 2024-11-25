@@ -8,8 +8,8 @@
 {
     [SerializeField] private Transform enemyPrefab;
     [SerializeField] private Transform spawnPoint;
-    [SerializeField] private float timeBetweenWaves = 5;
-    [SerializeField] private float timeBetweenEnemies = 0.5f;
+    [SerializeField] private float timeBetweenWaves = 3;
+    [SerializeField] private float timeBetweenEnemies = 0.1f;
     [SerializeField] private TextMeshProUGUI waveCountdown;
     private float _countdown = 2f;
     private int _waveIndex;

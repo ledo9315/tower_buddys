@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class tempVRTurret : MonoBehaviour
 {
+    [SerializeField] Transform _rotationTransform;
     [SerializeField] Transform _shootingPoint;
     [SerializeField] GameObject _ball;
+    
     float _shootingFrequency = 0.2f;
     float _currTime = 0f;
 
     private void Update()
     {
+        transform.rotation = _rotationTransform.rotation;
+
         _currTime += Time.deltaTime;
         if (_currTime >= _shootingFrequency) {
             _currTime = 0;

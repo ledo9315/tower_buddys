@@ -386,6 +386,7 @@
 "Assets/Dosenwerfen/Scripts/ResetRig.cs"
 "Assets/Dosenwerfen/Scripts/Spawner.cs"
 "Assets/InputManager.cs"
+"Assets/mainMenu.cs"
 "Assets/Scripts/BuildManager.cs"
 "Assets/Scripts/Bullet.cs"
 "Assets/Scripts/Enemy.cs"

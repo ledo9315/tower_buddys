@@ -4,7 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/mainMenu.unity
+    guid: a36be462a8f659e41b8d7291a1a45937
+  - enabled: 1
+    path: Assets/Scenes/Dosenwerfen.unity
+    guid: f185bf2bf9a638d408d5fbf082fbd189
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 493196f221e2f9145a8a3a925b9e2f7a, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: c8637530cbbbaa9468e71a80e9eec680, type: 2}

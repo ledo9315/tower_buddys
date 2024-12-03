@@ -11,20 +11,15 @@ public class Node : MonoBehaviour
     [SerializeField] private Color notEnoughMoneyColor;
     [SerializeField] private Color isMoneyColor;
     [SerializeField] private Color isAmmunitionColor;
-    [SerializeField] private Color isBonusColor;
+    [SerializeField] private Color isBoostColor;
 
     [Header("Optional")]
     [SerializeField] private Vector3 positionOffset;
     [FormerlySerializedAs("_turret")] public GameObject turret;
 
     private Renderer _rend;
-
-    //NodeMode ist auch in NodeManager.cs. Wenn das hier geändert wird, muss NodeManager.cs angepasst werden!
-    //Mir fällt keine gute Art und Weise ein, NodeMode nur im NodeManager zu haben.
-    //TODO: Irgendwann umschreiben, sodass Node.cs diesen Enum nicht hält
-    private enum NodeMode { IsEmpty = 0, IsSelect = 1, IsBuilt = 2, NotEnoughMoney = 3, IsMoney = 4 , IsAmmunition = 5, IsBonus = 6};
     private NodeMode _mode = NodeMode.IsEmpty;
-
+    private bool isSelected = false;
 
     private BuildManager buildManager;
 
@@ -37,36 +32,88 @@ public class Node : MonoBehaviour
 
     public void NodeIsSelected()
     {
-        _mode = NodeMode.IsSelect;
+        isSelected = true;
+        ApplySpecialBonus(); //Macht nichts, wenn kein Bonus auf dem Feld ist
         UpdateNodeColor();
     }
 
     //TODO: Entscheiden, ob es IsEmpty oder IsNotSelected heißen soll!
     public void NodeIsNotSelected()
     {
-        _mode = NodeMode.IsEmpty;
+        isSelected = false;
         UpdateNodeColor();
     }
 
+    public void NodeIsMoney() {
+        _mode= NodeMode.IsMoney;
+        UpdateNodeColor();
+    }
+
+    public void NodeIsBoost()
+    {
+        _mode = NodeMode.isBoost;
+        UpdateNodeColor();
+    }
+
+    public void TryBuilding()
+    {
+        if (!buildManager.CanBuild) return; //Ist schon ein Turm ausgewählt?
+        if (turret != null) return;         //Ist schon ein Turm gebaut?
+
+        bool wasAbleToBuild = buildManager.BuildTurretOn(this);   //Alle Checks durch, baue Turm
+        if (wasAbleToBuild)
+        {
+            _mode = NodeMode.IsBuilt;
+            UpdateNodeColor();
+        }
+    }
+    public Vector3 GetBuildPosition()
+    {
+        return transform.position + positionOffset;
+    }
+
+    public NodeMode GetCurrMode()
+    {
+        return _mode;
+    }
+
+    public void ApplyNodeMode(NodeMode newMode)
+    {
+        _mode = newMode;
+        UpdateNodeColor();
+    }
+
+    private void ApplySpecialBonus() {
+
+        switch (_mode)
+        {
+            case NodeMode.IsMoney:
+                PlayerStats.IncreaseMoney(75);
+                break;
+
+            //Das Feld ist ein Munitions-Feld
+            case NodeMode.IsAmmunition:
+                _rend.material.color = isAmmunitionColor;
+                break;
+
+            //Das Feld ist ein Bonus-Feld
+            case NodeMode.isBoost:
+                _rend.material.color = isBoostColor;
+                break;
+        }
+    }
     private void UpdateNodeColor()
     {
         //Schaut sich den derzeitigen Modus an und entscheidet dann
         //Hier können dann auch andere Funktionen aufgerufen werden
-        //z.B. falls Felder umrandet sein sollen, wenn die Selected sind,
-        //kann evtl. neues Objekt Instantiiert werden
-
+        //z.B. falls Felder umrandet sein sollen´.
+        //ACHTUNG - Wenn Ausgewählt, dann wird der Switch später ignoriert!
         switch (_mode)
         {
             //Wenn das Feld leer ist
             case NodeMode.IsEmpty:
                 _rend.material.color = notSelectColor;
                 break;
-
-            //Das Feld wurde ausgewählt
-            case NodeMode.IsSelect:
-                _rend.material.color = selectColor;
-                break;
-
             //Das Feld ist bebaut
             case NodeMode.IsBuilt:
                 _rend.material.color = notSelectColor;
@@ -88,8 +135,8 @@ public class Node : MonoBehaviour
                 break;
 
             //Das Feld ist ein Bonus-Feld
-            case NodeMode.IsBonus:
-                _rend.material.color = isBonusColor;
+            case NodeMode.isBoost:
+                _rend.material.color = isBoostColor;
                 break;
 
             //Irgendwas ist schief gelaufen!
@@ -98,26 +145,9 @@ public class Node : MonoBehaviour
                 Debug.Log("Node.CS hat einen Fehler, hier solltest du nicht landen!");
                 break;
         }
-    }
 
-    public void TryBuilding()
-    {
-        if (!buildManager.CanBuild) return; //Ist schon ein Turm ausgewählt?
-        if (turret != null) return;         //Ist schon ein Turm gebaut?
-
-        bool wasAbleToBuild = buildManager.BuildTurretOn(this);   //Alle Checks durch, baue Turm
-        if (wasAbleToBuild)
-        {
-            _mode = NodeMode.IsBuilt;
-            UpdateNodeColor();
+        if (isSelected) {
+            _rend.material.color = selectColor;
         }
-    }
-    public Vector3 GetBuildPosition()
-    {
-        return transform.position + positionOffset;
-    }
-
-    public int GetCurrMode() {
-        return (int)_mode;
     }
 }

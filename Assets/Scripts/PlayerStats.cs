@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public static int Money;
+    //TODO: Ich habe Money = 0 gesetzt, da startMoney das beim Spielstart eh überschreibt und man dann easy eine
+    //static Methode schreiben kann
+    public static int Money = 0;
     public int startMoney = 1000;
 
     public static int Lives;
@@ -12,5 +14,9 @@ public class PlayerStats : MonoBehaviour
     {
         Money = startMoney;
         Lives = startLives;
+    }
+
+    public static void IncreaseMoney(int addMoney) {
+        Money += addMoney;
     }
 }

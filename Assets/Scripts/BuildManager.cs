@@ -21,6 +21,9 @@ public class BuildManager : MonoBehaviour
 
     public bool BuildTurretOn(Node node)
     {
+
+        //TODO Bitte lass uns das ändern. Warum ist die Logik zum Überprüfen, ob man genug Geld hat
+        //Nicht im Script, welches sich ums Geld kümmern sollte.
         if (PlayerStats.Money < turretToBuild.cost)
         {
             Debug.Log("Not enough money");

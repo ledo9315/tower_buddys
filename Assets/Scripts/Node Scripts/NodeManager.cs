@@ -8,12 +8,7 @@ public class NodeManager : MonoBehaviour
     [SerializeField] int xNodes;
     [SerializeField] int yNodes;
     Node[,] nodeArr;
-    Vector2Int currSelected = new Vector2Int(2, 2);
-
-    //NodeMode ist auch in Node.cs. Wenn das hier geändert wird, muss Node.cs angepasst werden!
-    //Mir fällt keine gute Art und Weise ein, NodeMode nur im NodeManager zu haben.
-    //TODO: Irgendwann umschreiben, sodass Node.cs diesen Enum nicht hält
-    private enum NodeMode { IsEmpty = 0, IsSelect = 1, IsBuilt = 2, NotEnoughMoney = 3, IsMoney = 4, IsAmmunition = 5, IsBonus = 6 };
+    Vector2Int currSelected = new(2, 2);
 
     void Start()
     {
@@ -33,6 +28,9 @@ public class NodeManager : MonoBehaviour
             int yPos = (int)(tempPositionArr[i].z / 5f);
             nodeArr[xPos, yPos] = tempNodeArr[i].GetComponent<Node>();
         }
+
+        nodeArr[0, 0].ApplyNodeMode(NodeMode.IsAmmunition);
+        nodeArr[currSelected.x, currSelected.y].NodeIsSelected();
     }
 
     public void SelectNewNode(Vector2Int dir)
@@ -74,7 +72,6 @@ public class NodeManager : MonoBehaviour
                 yPosFound = true;
             }
         }
-
         nodeArr[currSelected.x, currSelected.y].NodeIsSelected();
     }
 
@@ -84,32 +81,40 @@ public class NodeManager : MonoBehaviour
         nodeArr[currSelected.x, currSelected.y].TryBuilding();
     }
 
+    //Sucht eine freie Node und platziert hier eine Money-Node
+    public void PlaceMoneyNode()
+    {
+        Vector2Int randPos = new(UnityEngine.Random.Range(0, xNodes), UnityEngine.Random.Range(0, yNodes));
+
+        Vector2Int newPos = FindClosestNodeWithProperty(randPos, NodeMode.IsEmpty);
+        if (newPos.x >= 0 || newPos.y >= 0) {
+            nodeArr[newPos.x, newPos.y].NodeIsMoney();
+        }
+    }
+
+    //Eventuell Funktion hier rauslöschen, da FindClosestNodeWithProperty(), wenn keine Node gefunden wird -1 -1 zurückgibt.
     private bool DoesNodeWithPropertyExist(NodeMode propertyOfNeededNode) {
         for (int xCounter = 0; xCounter < xNodes; xCounter++)        {
             for (int yCounter = 0; yCounter < yNodes; yCounter++)            {
-                var currentNode = nodeArr[xCounter, yCounter];
-
-                if (currentNode != null) {
-                    if ((int)propertyOfNeededNode == currentNode.GetCurrMode()) {
+                if (nodeArr[xCounter, yCounter] != null) {
+                    if (propertyOfNeededNode == nodeArr[xCounter, yCounter].GetCurrMode()) {
                         return true;
                     }
                 }
             }
         }
-
         return false;
     }
 
-    private Vector2Int FindClosestNodeWithProperty(Vector2Int startingNode, NodeMode propertyOfNeededNode)
-    {
-        Vector2Int closestNode = new Vector2Int(-1, -1); // Initialize with invalid coordinates
+    //TODO Effizienter Machen, das ist super ineffizient
+    private Vector2Int FindClosestNodeWithProperty(Vector2Int startingNode, NodeMode propertyOfNeededNode)    {
+        Vector2Int closestNode = new(-1, -1); // Initialize with invalid coordinates
         float minDistance = 10000;
 
         for (int xCounter = 0; xCounter < xNodes; xCounter++){
             for (int yCounter = 0; yCounter < yNodes; yCounter++){
-                var currentNode = nodeArr[xCounter, yCounter];
+                if (nodeArr[xCounter, yCounter] != null && propertyOfNeededNode == nodeArr[xCounter, yCounter].GetCurrMode()){
 
-                if (currentNode != null && (int)propertyOfNeededNode == currentNode.GetCurrMode()){
                     // Calculate Euclidean distance
                     float distance = Mathf.Sqrt(Mathf.Pow(xCounter - startingNode.x, 2) + Mathf.Pow(yCounter - startingNode.y, 2));
 
@@ -121,7 +126,6 @@ public class NodeManager : MonoBehaviour
                 }
             }
         }
-
         return closestNode; // Return the closest node's coordinates
     }
 }

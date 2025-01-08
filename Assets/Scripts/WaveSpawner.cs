@@ -35,7 +35,7 @@
 
         for (int i = 0; i < (_waveIndex); i++)
         {
-            SpawnEnemy(100 + _waveIndex * _waveIndex);
+            SpawnEnemy(78 + _waveIndex * _waveIndex);
             yield return new WaitForSeconds(timeBetweenEnemies);
         }
     }

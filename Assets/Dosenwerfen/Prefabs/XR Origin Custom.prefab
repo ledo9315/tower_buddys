@@ -276,6 +276,7 @@ MonoBehaviour:
   m_CastDistance: 10
   m_SphereCastRadius: 0.1
   m_ConeCastAngle: 6
+  m_LiveConeCastDebugVisuals: 0
 --- !u!1 &1682664673191830891
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,6 +553,7 @@ MonoBehaviour:
   m_CastDistance: 10
   m_SphereCastRadius: 0.1
   m_ConeCastAngle: 6
+  m_LiveConeCastDebugVisuals: 0
 --- !u!1 &3102180574130109752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,9 +1754,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7137044673011371837}
   - component: {fileID: 6598138520604209870}
+  - component: {fileID: 4175954814733581110}
   m_Layer: 0
   m_Name: Right Controller
-  m_TagString: Untagged
+  m_TagString: rightController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1845,6 +1848,21 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+--- !u!114 &4175954814733581110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8256547276543370001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091d45a64a35d2e4d9b2b90908f10f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raycastOrigin: {fileID: 7137044673011371837}
+  raycastDistance: 100
+  rayColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!1 &8655110758991307817
 GameObject:
   m_ObjectHideFlags: 0

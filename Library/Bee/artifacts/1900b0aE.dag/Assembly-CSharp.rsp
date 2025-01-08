@@ -386,6 +386,8 @@
 "Assets/Dosenwerfen/Scripts/ResetRig.cs"
 "Assets/Dosenwerfen/Scripts/Spawner.cs"
 "Assets/POLY STYLE - Platformer Starter Pack/Platformer Starter Pack_URP/Scripts/SimpleCameraController.cs"
+"Assets/RaycastExample.cs"
+"Assets/RaycastTeleporter.cs"
 "Assets/Scripts/BuildManager.cs"
 "Assets/Scripts/Bullet.cs"
 "Assets/Scripts/Enemy.cs"
@@ -441,6 +443,7 @@
 "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexShakeB.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexZoom.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs"
+"Assets/WaveUI.cs"
 -langversion:9.0
 
 /deterministic

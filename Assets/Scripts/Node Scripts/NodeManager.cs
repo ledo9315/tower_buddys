@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NodeManager : MonoBehaviour
@@ -9,7 +10,9 @@ public class NodeManager : MonoBehaviour
     [SerializeField] int yNodes;
     Node[,] nodeArr;
     Vector2Int currSelected = new(2, 2);
-
+    private float newMoneytimer = 2.5f;
+    private float currentMoneyTimer = 0;
+    
     void Start()
     {
         nodeArr = new Node[xNodes, yNodes];
@@ -26,10 +29,10 @@ public class NodeManager : MonoBehaviour
         {
             int xPos = (int)(tempPositionArr[i].x / 5f);
             int yPos = (int)(tempPositionArr[i].z / 5f);
+            
             nodeArr[xPos, yPos] = tempNodeArr[i].GetComponent<Node>();
         }
-
-        nodeArr[0, 0].ApplyNodeMode(NodeMode.IsAmmunition);
+        
         nodeArr[currSelected.x, currSelected.y].NodeIsSelected();
     }
 
@@ -81,6 +84,17 @@ public class NodeManager : MonoBehaviour
         nodeArr[currSelected.x, currSelected.y].TryBuilding();
     }
 
+    private void Update()
+    {
+        currentMoneyTimer += Time.deltaTime;
+        Debug.Log(currentMoneyTimer);
+        if (currentMoneyTimer >= newMoneytimer)
+        {
+            currentMoneyTimer = 0;
+            PlaceMoneyNode();
+        }
+    }
+
     //Sucht eine freie Node und platziert hier eine Money-Node
     public void PlaceMoneyNode()
     {
@@ -92,7 +106,7 @@ public class NodeManager : MonoBehaviour
         }
     }
 
-    //Eventuell Funktion hier rauslöschen, da FindClosestNodeWithProperty(), wenn keine Node gefunden wird -1 -1 zurückgibt.
+    //Eventuell Funktion hier rauslï¿½schen, da FindClosestNodeWithProperty(), wenn keine Node gefunden wird -1 -1 zurï¿½ckgibt.
     private bool DoesNodeWithPropertyExist(NodeMode propertyOfNeededNode) {
         for (int xCounter = 0; xCounter < xNodes; xCounter++)        {
             for (int yCounter = 0; yCounter < yNodes; yCounter++)            {

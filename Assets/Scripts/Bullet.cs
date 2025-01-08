@@ -5,6 +5,7 @@ public class Bullet : MonoBehaviour
 {
     private Transform _target;
     [SerializeField] private float speed = 70f;
+    [SerializeField] private int damage = 40;
     [SerializeField] private float explosionRadius = 0f;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private float timeOfImpactEffect = 2f;
@@ -65,7 +66,7 @@ public class Bullet : MonoBehaviour
 
     void Damage(Transform enemy)
     {
-        Destroy(enemy.gameObject);
+        enemy.GetComponent<Enemy>().isHit(damage);
     }
 
     private void OnDrawGizmosSelected()

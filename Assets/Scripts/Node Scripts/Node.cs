@@ -37,7 +37,7 @@ public class Node : MonoBehaviour
         UpdateNodeColor();
     }
 
-    //TODO: Entscheiden, ob es IsEmpty oder IsNotSelected heißen soll!
+    //TODO: Entscheiden, ob es IsEmpty oder IsNotSelected heiï¿½en soll!
     public void NodeIsNotSelected()
     {
         isSelected = false;
@@ -57,7 +57,7 @@ public class Node : MonoBehaviour
 
     public void TryBuilding()
     {
-        if (!buildManager.CanBuild) return; //Ist schon ein Turm ausgewählt?
+        if (!buildManager.CanBuild) return; //Ist schon ein Turm ausgewï¿½hlt?
         if (turret != null) return;         //Ist schon ein Turm gebaut?
 
         bool wasAbleToBuild = buildManager.BuildTurretOn(this);   //Alle Checks durch, baue Turm
@@ -83,12 +83,18 @@ public class Node : MonoBehaviour
         UpdateNodeColor();
     }
 
+    public void ResetNodeMode()
+    {
+        _mode = NodeMode.IsEmpty;
+    }
+
     private void ApplySpecialBonus() {
 
         switch (_mode)
         {
             case NodeMode.IsMoney:
-                PlayerStats.IncreaseMoney(75);
+                PlayerStats.IncreaseMoney(3);
+                ResetNodeMode();
                 break;
 
             //Das Feld ist ein Munitions-Feld
@@ -105,9 +111,9 @@ public class Node : MonoBehaviour
     private void UpdateNodeColor()
     {
         //Schaut sich den derzeitigen Modus an und entscheidet dann
-        //Hier können dann auch andere Funktionen aufgerufen werden
-        //z.B. falls Felder umrandet sein sollen´.
-        //ACHTUNG - Wenn Ausgewählt, dann wird der Switch später ignoriert!
+        //Hier kï¿½nnen dann auch andere Funktionen aufgerufen werden
+        //z.B. falls Felder umrandet sein sollenï¿½.
+        //ACHTUNG - Wenn Ausgewï¿½hlt, dann wird der Switch spï¿½ter ignoriert!
         switch (_mode)
         {
             //Wenn das Feld leer ist

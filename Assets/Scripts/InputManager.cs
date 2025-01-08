@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 
@@ -10,23 +12,43 @@ public class InputManager : MonoBehaviour
 {
     NodeManager nodeManager;
     Shop shopManager;
-    //Da wir mit den Movement Buttons auch durch Menüs usw. navigieren müssen
-    //sollten wir später wie auch bei SpieleProg über ein Enum ermitteln
-    //in welchem State das Spiel ist. Da wir kein Menü oder w/e
+    //Da wir mit den Movement Buttons auch durch Menï¿½s usw. navigieren mï¿½ssen
+    //sollten wir spï¿½ter wie auch bei SpieleProg ï¿½ber ein Enum ermitteln
+    //in welchem State das Spiel ist. Da wir kein Menï¿½ oder w/e
     //haben, habe ich diesen Wert konstant auf _inRunningGame gesetzt.
     bool _inRunningGame = true;
-
+    bool _tryToTeleport = false;
+    public InputActionReference teleportAction;
+    public XROrigin playerOrigin;
     void Start()
     {
         nodeManager = FindAnyObjectByType<NodeManager>().GetComponent<NodeManager>();
         shopManager = FindAnyObjectByType<Shop>().GetComponent<Shop>();
+        playerOrigin = FindAnyObjectByType<XROrigin>().GetComponent<XROrigin>();
+    }
+
+    private void Awake()
+    {
+        Debug.Log("Awake");
+        teleportAction.action.Enable();
+        teleportAction.action.performed += UseOfGripButton;
+        teleportAction.action.canceled += UseOfGripButton;
+
+    }
+    
+    private void OnDestroy()
+    {
+        teleportAction.action.Disable();
+        teleportAction.action.performed -= UseOfGripButton;
+        teleportAction.action.canceled -= UseOfGripButton;
+
     }
 
     public void UseOfMovementButtons(CallbackContext cb) {
         Vector2 mvValFloat = cb.ReadValue<Vector2>();
 
-        //Wird eine Taste gedrückt, dann wird diese Methode hier mehrere Male aufgerufen. Hier wird returned, wenn der Knopf nicht gerade
-        //gedrückt wurde https://discussions.unity.com/t/player-input-component-triggering-events-multiple-times/781922
+        //Wird eine Taste gedrï¿½ckt, dann wird diese Methode hier mehrere Male aufgerufen. Hier wird returned, wenn der Knopf nicht gerade
+        //gedrï¿½ckt wurde https://discussions.unity.com/t/player-input-component-triggering-events-multiple-times/781922
         if (!cb.started) return;
 
 
@@ -44,7 +66,7 @@ public class InputManager : MonoBehaviour
         Debug.Log("Float x: " + mvValFloat.x + " Int x: " + xVal);
         Debug.Log("Float Y: " + mvValFloat.y + " Int y: " + yVal);
 
-        //Läuft das Game und existiert der Nodemanager, so wird die neue Node ausgewählt
+        //Lï¿½uft das Game und existiert der Nodemanager, so wird die neue Node ausgewï¿½hlt
         if (_inRunningGame && nodeManager != null) nodeManager.SelectNewNode(mvValInt);
     }
 
@@ -63,5 +85,25 @@ public class InputManager : MonoBehaviour
         if (!cb.started) return;
 
         if (_inRunningGame && nodeManager != null) shopManager.SelectNextTurret();
+    }
+
+    public void UseOfGripButton(CallbackContext cb)
+    {
+        GameObject ctrl = GameObject.FindGameObjectWithTag("rightController");
+        Debug.Log("UseOfGripButton");
+        if (_tryToTeleport)
+        {
+            ctrl.GetComponent<RaycastExample>().activateTeleporter();
+        }
+        else
+        {
+            Vector3 newPos = ctrl.GetComponent<RaycastExample>().getRaycastHitLocation();
+            newPos.y = 2.11f;
+            playerOrigin.GetComponent<Transform>().position = newPos;
+
+            
+            ctrl.GetComponent<RaycastExample>().deactivateTeleporter();
+        }
+        _tryToTeleport = !_tryToTeleport;
     }
 }

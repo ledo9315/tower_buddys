@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Node
+  - Teleportable
+  - rightController
   layers:
   - Default
   - TransparentFX

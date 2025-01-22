@@ -87,7 +87,6 @@ public class NodeManager : MonoBehaviour
     private void Update()
     {
         currentMoneyTimer += Time.deltaTime;
-        Debug.Log(currentMoneyTimer);
         if (currentMoneyTimer >= newMoneytimer)
         {
             currentMoneyTimer = 0;

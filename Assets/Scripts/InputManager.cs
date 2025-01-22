@@ -11,7 +11,6 @@ using static UnityEngine.InputSystem.InputAction;
 public class InputManager : MonoBehaviour
 {
     NodeManager nodeManager;
-    Shop shopManager;
     //Da wir mit den Movement Buttons auch durch Men�s usw. navigieren m�ssen
     //sollten wir sp�ter wie auch bei SpieleProg �ber ein Enum ermitteln
     //in welchem State das Spiel ist. Da wir kein Men� oder w/e
@@ -23,13 +22,11 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         nodeManager = FindAnyObjectByType<NodeManager>().GetComponent<NodeManager>();
-        shopManager = FindAnyObjectByType<Shop>().GetComponent<Shop>();
         playerOrigin = FindAnyObjectByType<XROrigin>().GetComponent<XROrigin>();
     }
 
     private void Awake()
     {
-        Debug.Log("Awake");
         teleportAction.action.Enable();
         teleportAction.action.performed += UseOfGripButton;
         teleportAction.action.canceled += UseOfGripButton;
@@ -63,8 +60,8 @@ public class InputManager : MonoBehaviour
 
         Vector2Int mvValInt = new Vector2Int(xVal, yVal);
 
-        Debug.Log("Float x: " + mvValFloat.x + " Int x: " + xVal);
-        Debug.Log("Float Y: " + mvValFloat.y + " Int y: " + yVal);
+        //Debug.Log("Float x: " + mvValFloat.x + " Int x: " + xVal);
+        //Debug.Log("Float Y: " + mvValFloat.y + " Int y: " + yVal);
 
         //L�uft das Game und existiert der Nodemanager, so wird die neue Node ausgew�hlt
         if (_inRunningGame && nodeManager != null) nodeManager.SelectNewNode(mvValInt);
@@ -84,13 +81,13 @@ public class InputManager : MonoBehaviour
 
         if (!cb.started) return;
 
-        if (_inRunningGame && nodeManager != null) shopManager.SelectNextTurret();
+        if (_inRunningGame && nodeManager != null) Shop.Instance.SelectNext();
     }
 
     public void UseOfGripButton(CallbackContext cb)
     {
         GameObject ctrl = GameObject.FindGameObjectWithTag("rightController");
-        Debug.Log("UseOfGripButton");
+        //Debug.Log("UseOfGripButton");
         if (_tryToTeleport)
         {
             ctrl.GetComponent<RaycastExample>().activateTeleporter();

@@ -20,6 +20,7 @@ public class Node : MonoBehaviour
     private Renderer _rend;
     private NodeMode _mode = NodeMode.IsEmpty;
     private bool isSelected = false;
+    private GameObject currTurret = null;
 
     private BuildManager buildManager;
 
@@ -60,13 +61,16 @@ public class Node : MonoBehaviour
         if (!buildManager.CanBuild) return; //Ist schon ein Turm ausgew�hlt?
         if (turret != null) return;         //Ist schon ein Turm gebaut?
 
-        bool wasAbleToBuild = buildManager.BuildTurretOn(this);   //Alle Checks durch, baue Turm
-        if (wasAbleToBuild)
+        currTurret = buildManager.BuildTurretOn(this);   //Alle Checks durch, baue Turm
+
+        if (currTurret != null)
         {
             _mode = NodeMode.IsBuilt;
             UpdateNodeColor();
         }
+        ApplySpecialBonus();
     }
+
     public Vector3 GetBuildPosition()
     {
         return transform.position + positionOffset;
@@ -77,23 +81,18 @@ public class Node : MonoBehaviour
         return _mode;
     }
 
-    public void ApplyNodeMode(NodeMode newMode)
-    {
-        _mode = newMode;
-        UpdateNodeColor();
-    }
-
-    public void ResetNodeMode()
+    private void ResetNodeMode()
     {
         _mode = NodeMode.IsEmpty;
     }
 
     private void ApplySpecialBonus() {
-
+        
         switch (_mode)
         {
+            //Das Feld ist Geld
             case NodeMode.IsMoney:
-                PlayerStats.IncreaseMoney(3);
+                PlayerStats.ApplyMoneypad();
                 ResetNodeMode();
                 break;
 
@@ -106,8 +105,20 @@ public class Node : MonoBehaviour
             case NodeMode.isBoost:
                 _rend.material.color = isBoostColor;
                 break;
+
+            //Das Feld ist bebaut
+            case NodeMode.IsBuilt:
+                Debug.Log("ChangeToUpgradeScreen" + _mode.ToString());
+                Shop.Instance.ChangeToUpgradeScreen(currTurret);
+                break;
+        }
+
+        if (_mode != NodeMode.IsBuilt) {
+            Debug.Log("ChangeToBuyScreen" + _mode.ToString());
+            Shop.Instance.ChangeToBuyScreen();
         }
     }
+
     private void UpdateNodeColor()
     {
         //Schaut sich den derzeitigen Modus an und entscheidet dann

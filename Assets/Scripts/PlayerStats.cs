@@ -14,25 +14,43 @@ public class PlayerStats : MonoBehaviour
     public static int Lives = 0;
     public int startLives = 5;
 
-    [SerializeField] private TextMeshProUGUI waveCountdown;
+    public static float comboTimer = 0;
+    private static int comboMultiplier = 1;
+    private static readonly int comboBaseMoney = 2;
+
+    public static Action<int> OnHealthChanged;
+
     private void Start()
     {
         Money = startMoney;
         Lives = startLives;
+        OnHealthChanged.Invoke(Lives);
     }
 
     public static void IncreaseMoney(int addMoney) {
         Money += addMoney;
     }
 
+    public static void ApplyMoneypad() {
+        comboTimer = 3.2f;
+        IncreaseMoney(comboBaseMoney * comboMultiplier);
+        int v = comboMultiplier <= 5 ? comboMultiplier + 1 : 5;
+        comboMultiplier = v;
+        Debug.Log("Combo Multiplier: " + comboMultiplier.ToString());
+    }
+
     public static void DecreaseLives(int decreaseLives)
     {
         Lives -= decreaseLives;
+        OnHealthChanged.Invoke(Lives);
         if (Lives == 0) SceneManager.LoadScene(0);
     }
 
     private void Update()
     {
-        //waveCountdown.text = Mathf.Round(Lives).ToString(CultureInfo.CurrentCulture);
+        comboTimer = comboTimer > 0 ? comboTimer - Time.deltaTime : 0;
+        if (comboTimer <= 0) {
+            comboMultiplier = 1;
+        }
     }
 }

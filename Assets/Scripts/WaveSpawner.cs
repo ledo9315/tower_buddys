@@ -1,4 +1,5 @@
- using System.Collections;
+using System;
+using System.Collections;
  using System.Globalization;
  using TMPro;
  using UnityEngine;
@@ -15,7 +16,9 @@
     private int _waveIndex;
     private int _currentWave;
     public static int currentWave = 0;
-    
+
+    public static Action<int> OnNewWaveLoaded;
+
     private void Update()
     {
         if (_countdown <= 0f)
@@ -24,6 +27,9 @@
             _countdown = timeBetweenWaves;
             _currentWave++;
             currentWave = _currentWave;
+
+            //Benachricht subscribed Funktionen (Momentan nur für UI Changes)
+            OnNewWaveLoaded.Invoke(_currentWave);
         }
         _countdown -= Time.deltaTime;
         _countdown = Mathf.Clamp(_countdown, 0f, Mathf.Infinity);

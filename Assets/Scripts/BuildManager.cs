@@ -12,14 +12,12 @@ public class BuildManager : MonoBehaviour
         Instance = this; 
     }
 
-
-    
     private TurretBlueprint turretToBuild;
     
     public bool CanBuild => turretToBuild != null;
     public bool HasMoney => PlayerStats.Money >= turretToBuild.cost;
 
-    public bool BuildTurretOn(Node node)
+    public GameObject BuildTurretOn(Node node)
     {
 
         //TODO Bitte lass uns das ändern. Warum ist die Logik zum Überprüfen, ob man genug Geld hat
@@ -27,16 +25,15 @@ public class BuildManager : MonoBehaviour
         if (PlayerStats.Money < turretToBuild.cost)
         {
             Debug.Log("Not enough money");
-            return false;
+            return null;
         }
 
         PlayerStats.Money -= turretToBuild.cost;
         
         GameObject turret = Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
-        node.turret = turret;
 
         Debug.Log("Turret build! Money left: " + PlayerStats.Money);
-        return true;
+        return turret;
     }
 
     public void SelectTurretToBuild(TurretBlueprint turret)

@@ -88,18 +88,18 @@ public class InputManager : MonoBehaviour
     {
         GameObject ctrl = GameObject.FindGameObjectWithTag("rightController");
         //Debug.Log("UseOfGripButton");
+        if (!cb.started) return;
         if (_tryToTeleport)
         {
             ctrl.GetComponent<RaycastExample>().activateTeleporter();
         }
         else
         {
+            ctrl.GetComponent<RaycastExample>().deactivateTeleporter();
             Vector3 newPos = ctrl.GetComponent<RaycastExample>().getRaycastHitLocation();
             newPos.y = 2.11f;
             playerOrigin.GetComponent<Transform>().position = newPos;
-
             
-            ctrl.GetComponent<RaycastExample>().deactivateTeleporter();
         }
         _tryToTeleport = !_tryToTeleport;
     }

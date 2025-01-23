@@ -19,6 +19,9 @@ public class RaycastExample : MonoBehaviour
     private bool isActive;
     private Vector3 hitLocation;
     
+    private MeshRenderer TeleportRenderer;
+
+    
     void Start()
     {
         // LineRenderer-Komponente hinzufügen, falls sie noch nicht existiert
@@ -50,12 +53,28 @@ public class RaycastExample : MonoBehaviour
             // Überprüfe, ob der Raycast etwas trifft
             if (Physics.Raycast(ray, out hit, raycastDistance))
             {
-                // Wenn der Raycast etwas trifft, visualisiere die Linie bis zum Trefferpunkt
-                lineRenderer.SetPosition(0, raycastOrigin.position);  // Startpunkt des Raycasts
-                lineRenderer.SetPosition(1, hit.point);               // Endpunkt des Raycasts (Treffpunkt)
-                // Ausgabe der Koordinaten des Treffpunkts
-                Debug.Log("Raycast hat getroffen! Position: " + hit.point);
-                hitLocation = hit.point;
+
+                    // Wenn der Raycast etwas trifft, visualisiere die Linie bis zum Trefferpunkt
+                    lineRenderer.SetPosition(0, raycastOrigin.position);  // Startpunkt des Raycasts
+                    lineRenderer.SetPosition(1, hit.point);               // Endpunkt des Raycasts (Treffpunkt)
+                    if (hit.collider.CompareTag("Teleportable"))
+                    {
+                        if (TeleportRenderer != null && TeleportRenderer != hit.collider.gameObject.GetComponent<MeshRenderer>())
+                        {
+                            TeleportRenderer.enabled = false;
+                        }
+
+                        TeleportRenderer = hit.collider.gameObject.GetComponent<MeshRenderer>();
+                        TeleportRenderer.enabled = true;
+                        hitLocation = hit.collider.gameObject.transform.position;
+                    }
+                    else
+                    {
+                        if (TeleportRenderer != null)
+                        {
+                            TeleportRenderer.enabled = false;
+                        }
+                    }
             }
             else
             {
@@ -81,6 +100,10 @@ public class RaycastExample : MonoBehaviour
     public void deactivateTeleporter()
     {
         isActive = false;
+        if (TeleportRenderer != null)
+        {
+            TeleportRenderer.enabled = false;
+        }
     }
 
     public Vector3 getRaycastHitLocation()

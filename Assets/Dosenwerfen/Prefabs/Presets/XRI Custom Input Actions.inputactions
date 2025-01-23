@@ -1064,7 +1064,7 @@
                 {
                     "name": "",
                     "id": "ec5a91da-fcbb-4e9a-bbe4-5a76b0f36ca0",
-                    "path": "<XRController>/{GripButton}",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",

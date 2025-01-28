@@ -7,7 +7,7 @@ using UnityEngine;
 public class NodeManager : MonoBehaviour
 {
     [SerializeField] int xNodes;
-    [SerializeField] int yNodes;
+    [SerializeField] int zNodes;
     Node[,] nodeArr;
     Vector2Int currSelected = new(7, 7);
     private float newMoneytimer = 2.5f;
@@ -15,7 +15,7 @@ public class NodeManager : MonoBehaviour
     
     void Start()
     {
-        nodeArr = new Node[xNodes, yNodes];
+        nodeArr = new Node[xNodes, zNodes];
 
         GameObject[] tempNodeArr = GameObject.FindGameObjectsWithTag("Node");
         Vector3[] tempPositionArr = new Vector3[tempNodeArr.Length];
@@ -62,7 +62,7 @@ public class NodeManager : MonoBehaviour
         }
 
         bool yPosFound = false;
-        while (yPos >= 0 && yPos < xNodes && !yPosFound)
+        while (yPos >= 0 && yPos < zNodes && !yPosFound)
         {
             if (nodeArr[currSelected.x, yPos] == null)
             {
@@ -97,7 +97,7 @@ public class NodeManager : MonoBehaviour
     //Sucht eine freie Node und platziert hier eine Money-Node
     public void PlaceMoneyNode()
     {
-        Vector2Int randPos = new(UnityEngine.Random.Range(0, xNodes), UnityEngine.Random.Range(0, yNodes));
+        Vector2Int randPos = new(UnityEngine.Random.Range(0, xNodes), UnityEngine.Random.Range(0, zNodes));
 
         Vector2Int newPos = FindClosestNodeWithProperty(randPos, NodeMode.IsEmpty);
         if (newPos.x >= 0 || newPos.y >= 0) {
@@ -108,7 +108,7 @@ public class NodeManager : MonoBehaviour
     //Eventuell Funktion hier rausl�schen, da FindClosestNodeWithProperty(), wenn keine Node gefunden wird -1 -1 zur�ckgibt.
     private bool DoesNodeWithPropertyExist(NodeMode propertyOfNeededNode) {
         for (int xCounter = 0; xCounter < xNodes; xCounter++)        {
-            for (int yCounter = 0; yCounter < yNodes; yCounter++)            {
+            for (int yCounter = 0; yCounter < zNodes; yCounter++)            {
                 if (nodeArr[xCounter, yCounter] != null) {
                     if (propertyOfNeededNode == nodeArr[xCounter, yCounter].GetCurrMode()) {
                         return true;
@@ -125,7 +125,7 @@ public class NodeManager : MonoBehaviour
         float minDistance = 10000;
 
         for (int xCounter = 0; xCounter < xNodes; xCounter++){
-            for (int yCounter = 0; yCounter < yNodes; yCounter++){
+            for (int yCounter = 0; yCounter < zNodes; yCounter++){
                 if (nodeArr[xCounter, yCounter] != null && propertyOfNeededNode == nodeArr[xCounter, yCounter].GetCurrMode()){
 
                     // Calculate Euclidean distance

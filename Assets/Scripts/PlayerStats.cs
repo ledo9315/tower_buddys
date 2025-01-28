@@ -19,11 +19,14 @@ public class PlayerStats : MonoBehaviour
     private static readonly int comboBaseMoney = 2;
 
     public static Action<int> OnHealthChanged;
-
+    [SerializeField] private bool isIntro;
+    private static bool _isIntro = false;
+    
     private void Start()
     {
         Money = startMoney;
         Lives = startLives;
+        _isIntro = isIntro;
         OnHealthChanged.Invoke(Lives);
     }
 
@@ -41,6 +44,7 @@ public class PlayerStats : MonoBehaviour
 
     public static void DecreaseLives(int decreaseLives)
     {
+        if (checkIfIntro()) return;
         Lives -= decreaseLives;
         OnHealthChanged.Invoke(Lives);
         if (Lives == 0) SceneManager.LoadScene(0);
@@ -52,5 +56,10 @@ public class PlayerStats : MonoBehaviour
         if (comboTimer <= 0) {
             comboMultiplier = 1;
         }
+    }
+
+    public static bool checkIfIntro()
+    {
+        return _isIntro;
     }
 }

@@ -15,7 +15,6 @@ using System.Collections;
     private float _countdown = 2f;
     private int _waveIndex;
     private int _currentWave;
-    public static int currentWave = 0;
 
     public static Action<int> OnNewWaveLoaded;
 
@@ -25,10 +24,18 @@ using System.Collections;
         {
             StartCoroutine(SpawnWave());
             _countdown = timeBetweenWaves;
-            _currentWave++;
-            currentWave = _currentWave;
 
-            //Benachricht subscribed Funktionen (Momentan nur für UI Changes)
+            if (!PlayerStats.checkIfIntro())
+            {
+                _currentWave++;
+            }
+            else
+            {
+                _currentWave = 2;
+            }
+
+
+            //Benachricht subscribed Funktionen (Momentan nur fï¿½r UI Changes)
             OnNewWaveLoaded.Invoke(_currentWave);
         }
         _countdown -= Time.deltaTime;
@@ -37,7 +44,14 @@ using System.Collections;
 
     private IEnumerator SpawnWave()
     {
-        _waveIndex++;
+        if (!PlayerStats.checkIfIntro())
+        {
+            _waveIndex++;
+        }
+        else
+        {
+            _waveIndex = 2;
+        }
 
         for (int i = 0; i < (_waveIndex); i++)
         {

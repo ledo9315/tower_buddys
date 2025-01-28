@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
     bool _tryToTeleport = false;
     public InputActionReference teleportAction;
     public XROrigin playerOrigin;
+    [SerializeField] private float turretPlayerHeight = 0;
     void Start()
     {
         nodeManager = FindAnyObjectByType<NodeManager>().GetComponent<NodeManager>();
@@ -96,10 +97,12 @@ public class InputManager : MonoBehaviour
         else
         {
             ctrl.GetComponent<RaycastExample>().deactivateTeleporter();
-            Vector3 newPos = ctrl.GetComponent<RaycastExample>().getRaycastHitLocation();
-            newPos.y = 2.11f;
-            playerOrigin.GetComponent<Transform>().position = newPos;
-            
+            if (ctrl.GetComponent<RaycastExample>().CheckIfTeleportable())
+            {
+                Vector3 newPos = ctrl.GetComponent<RaycastExample>().getRaycastHitLocation();
+                newPos.y = turretPlayerHeight;
+                playerOrigin.GetComponent<Transform>().position = newPos;
+            }
         }
         _tryToTeleport = !_tryToTeleport;
     }

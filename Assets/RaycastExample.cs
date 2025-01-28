@@ -15,7 +15,8 @@ public class RaycastExample : MonoBehaviour
 
     // LineRenderer für die Visualisierung des Raycasts
     private LineRenderer lineRenderer;
-    
+
+    private bool canTeleport;
     private bool isActive;
     private Vector3 hitLocation;
     
@@ -53,12 +54,12 @@ public class RaycastExample : MonoBehaviour
             // Überprüfe, ob der Raycast etwas trifft
             if (Physics.Raycast(ray, out hit, raycastDistance))
             {
-
                     // Wenn der Raycast etwas trifft, visualisiere die Linie bis zum Trefferpunkt
                     lineRenderer.SetPosition(0, raycastOrigin.position);  // Startpunkt des Raycasts
                     lineRenderer.SetPosition(1, hit.point);               // Endpunkt des Raycasts (Treffpunkt)
                     if (hit.collider.CompareTag("Teleportable"))
                     {
+                        canTeleport = true;
                         if (TeleportRenderer != null && TeleportRenderer != hit.collider.gameObject.GetComponent<MeshRenderer>())
                         {
                             TeleportRenderer.enabled = false;
@@ -70,6 +71,7 @@ public class RaycastExample : MonoBehaviour
                     }
                     else
                     {
+                        canTeleport = false;
                         if (TeleportRenderer != null)
                         {
                             TeleportRenderer.enabled = false;
@@ -84,6 +86,7 @@ public class RaycastExample : MonoBehaviour
             
                 // Ausgabe, wenn kein Treffer erfolgt ist
                 //Debug.Log("Kein Treffer.");
+                canTeleport = false;
             }
         }
         else
@@ -104,6 +107,11 @@ public class RaycastExample : MonoBehaviour
         {
             TeleportRenderer.enabled = false;
         }
+    }
+
+    public bool CheckIfTeleportable()
+    {
+        return canTeleport;
     }
 
     public Vector3 getRaycastHitLocation()

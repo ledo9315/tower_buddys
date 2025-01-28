@@ -9,7 +9,7 @@ public class NodeManager : MonoBehaviour
     [SerializeField] int xNodes;
     [SerializeField] int yNodes;
     Node[,] nodeArr;
-    Vector2Int currSelected = new(2, 2);
+    Vector2Int currSelected = new(7, 7);
     private float newMoneytimer = 2.5f;
     private float currentMoneyTimer = 0;
     

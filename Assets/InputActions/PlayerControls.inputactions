@@ -56,6 +56,17 @@
                 },
                 {
                     "name": "",
+                    "id": "de0d3c53-9e30-49a9-bce7-533dc8392d0a",
+                    "path": "<HID::USB gamepad>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "be7ccc21-02d8-4ac8-8c30-028e23aedb0c",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -66,7 +77,18 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "2D Vector",
+                    "name": "",
+                    "id": "11239524-401c-4cfb-a520-003c50478278",
+                    "path": "<HID::USB gamepad>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Option",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Keyboard",
                     "id": "ba8e9de9-ed35-47b3-96a4-82a77724f081",
                     "path": "2DVector",
                     "interactions": "",
@@ -113,6 +135,61 @@
                     "name": "right",
                     "id": "5710a4dd-258a-449b-9fd8-249ebf6246df",
                     "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Steuerkreuz",
+                    "id": "450227a8-5d4b-41b3-9e7f-27f258375567",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "4c8a5363-6f86-4449-a052-1973474fbf98",
+                    "path": "<HID::USB gamepad>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "9e8768bb-68b8-4e6f-998b-cf28a6dedc04",
+                    "path": "<HID::USB gamepad>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "b57698ec-f147-40e6-8c46-2cbb89088f21",
+                    "path": "<HID::USB gamepad>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "b26e67da-c5d7-4061-ba3f-cf01432d39a9",
+                    "path": "<HID::USB gamepad>/stick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

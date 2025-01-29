@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -15,12 +16,24 @@ public class Shop : MonoBehaviour
     [SerializeField] private TextMeshProUGUI powerupText;
     [SerializeField] private TextMeshProUGUI comboTimerText;
 
+    [Header("Button Buyscreen")]
+    [SerializeField] Button microwaveTurrButton;
+    [SerializeField] Button fridgeTurrButton;
+    [SerializeField] Button ovenTurrButton;
+    
+    [Header("Button Buyscreen")]
+    [SerializeField] Button upgradeLeft;
+    [SerializeField] Button upgradeMid;
+    [SerializeField] Button upgradeRight;
+    
     [Header("Colours")]
-    [SerializeField] Button standardTurrButton;
     [SerializeField] Color selectedColor;
     [SerializeField] Color notSelectedColor;
 
-    public TurretBlueprint standardTurret;
+    [SerializeField] private TurretBlueprint microwaveTurret;
+    [SerializeField] private TurretBlueprint fridgeTurret;
+    [SerializeField] private TurretBlueprint ovenTurret;
+
     private BuildManager buildManager;
     private int _currentBuyItem = 0;
     private int _currentUpgradeItem = 0;
@@ -64,7 +77,7 @@ public class Shop : MonoBehaviour
     {
         buildManager = BuildManager.Instance;
         _currScreenMode = ScreenMode.BuyScreen;
-        SelectStandardTurret();
+        UpdateBuyScreen();
     }
     void Update()
     {
@@ -80,16 +93,18 @@ public class Shop : MonoBehaviour
     public void ChangeToUpgradeScreen(GameObject turretGameObject) {
         _currScreenMode = ScreenMode.UpgradeScreen;
         UpdateUIConfig();
-        //Hiest mit dem Turret die Upgradetexte befüllen
+        //Hiest mit dem Turret die Upgradetexte befï¿½llen
     }
 
     private void UpdateUIConfig() {
         switch (_currScreenMode) {
             case ScreenMode.BuyScreen:
+                UpdateBuyScreen();
                 BuyScreen.SetActive(true);
                 UpgradeScreen.SetActive(false);
                 break;
             case ScreenMode.UpgradeScreen:
+                UpdateUpgradeScreen();
                 BuyScreen.SetActive(false);
                 UpgradeScreen.SetActive(true);
                 break;
@@ -100,9 +115,11 @@ public class Shop : MonoBehaviour
         switch (_currScreenMode) {
             case ScreenMode.BuyScreen:
                 _currentBuyItem++;
+                UpdateBuyScreen();
                 break;
             case ScreenMode.UpgradeScreen:
                 _currentUpgradeItem++;
+                UpdateUpgradeScreen();
                 break;
         }
     }
@@ -117,17 +134,56 @@ public class Shop : MonoBehaviour
         healthText.text = "Lives: " + currHealth.ToString();
     }
 
-    public void SelectStandardTurret()
+    private void UpdateBuyScreen()
     {
-        Debug.Log("Standard Turret Selected");
-        buildManager.SelectTurretToBuild(standardTurret);
-
-        // Update the color for the standard turret button
-        ColorBlock cb = standardTurrButton.colors;
+        ColorBlock cb = microwaveTurrButton.colors;
+        cb.normalColor = notSelectedColor;
+        microwaveTurrButton.colors = cb;
+        fridgeTurrButton.colors = cb;
+        ovenTurrButton.colors = cb;
+        
         cb.normalColor = selectedColor;
-        standardTurrButton.colors = cb;
-
-        // Force the buttons to refresh their visual state
-        standardTurrButton.OnDeselect(null);
+        switch (_currentBuyItem % 3)
+        {
+            case 0:
+                microwaveTurrButton.colors = cb;
+                buildManager.SelectTurretToBuild(microwaveTurret);
+                Debug.Log("microwaveTurrButton");
+                break;
+            case 1:
+                fridgeTurrButton.colors = cb;
+                buildManager.SelectTurretToBuild(fridgeTurret);
+                Debug.Log("fridgeTurrButton");
+                break;
+            case 2:
+                ovenTurrButton.colors = cb;
+                buildManager.SelectTurretToBuild(ovenTurret);
+                Debug.Log("ovenTurrButton");
+                break;
+        }
     }
+    
+    private void UpdateUpgradeScreen()
+    {
+        ColorBlock cb = microwaveTurrButton.colors;
+        cb.normalColor = notSelectedColor;
+        upgradeLeft.colors = cb;
+        upgradeMid.colors = cb;
+        upgradeRight.colors = cb;
+        
+        cb.normalColor = selectedColor;
+        switch (_currentUpgradeItem % 3)
+        {
+            case 0:
+                upgradeLeft.colors = cb;
+                break;
+            case 1:
+                upgradeMid.colors = cb;
+                break;
+            case 2:
+                upgradeRight.colors = cb;
+                break;
+        }
+    }
+    
 }

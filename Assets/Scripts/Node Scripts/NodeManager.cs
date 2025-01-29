@@ -79,9 +79,9 @@ public class NodeManager : MonoBehaviour
     }
 
     //Baut auf SelectedNode
-    public void BuildOnSelectedNode()
+    public void ActionOnSelectedNode()
     {
-        nodeArr[currSelected.x, currSelected.y].TryBuilding();
+        nodeArr[currSelected.x, currSelected.y].TryAction();
     }
 
     private void Update()

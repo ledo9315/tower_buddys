@@ -5,14 +5,16 @@ public class Bullet : MonoBehaviour
 {
     private Transform _target;
     [SerializeField] private float speed = 70f;
-    [SerializeField] private int damage = 40;
+
     [SerializeField] private float explosionRadius = 0f;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private float timeOfImpactEffect = 2f;
-
-    public void Seek(Transform tar)
+    private int damage = 40;
+    
+    public void Seek(Transform tar, int assignedDamage)
     {
         _target = tar;
+        damage = assignedDamage;
     }
 
     private void Update()

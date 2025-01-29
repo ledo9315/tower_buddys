@@ -15,12 +15,12 @@ public class Node : MonoBehaviour
 
     [Header("Optional")]
     [SerializeField] private Vector3 positionOffset;
-    [FormerlySerializedAs("_turret")] public GameObject turret;
-
+    
+    private Turret turretScript = null;
     private Renderer _rend;
     private NodeMode _mode = NodeMode.IsEmpty;
-    private bool isSelected = false;
-    private GameObject currTurret = null;
+    private bool _isSelected = false;
+    private GameObject _currTurret = null;
 
     private BuildManager buildManager;
 
@@ -33,7 +33,7 @@ public class Node : MonoBehaviour
 
     public void NodeIsSelected()
     {
-        isSelected = true;
+        _isSelected = true;
         ApplySpecialBonus(); //Macht nichts, wenn kein Bonus auf dem Feld ist
         UpdateNodeColor();
     }
@@ -41,7 +41,7 @@ public class Node : MonoBehaviour
     //TODO: Entscheiden, ob es IsEmpty oder IsNotSelected hei�en soll!
     public void NodeIsNotSelected()
     {
-        isSelected = false;
+        _isSelected = false;
         UpdateNodeColor();
     }
 
@@ -56,19 +56,23 @@ public class Node : MonoBehaviour
         UpdateNodeColor();
     }
 
-    public void TryBuilding()
+    public void TryAction()
     {
         if (!buildManager.CanBuild) return; //Ist schon ein Turm ausgew�hlt?
-        if (turret != null) return;         //Ist schon ein Turm gebaut?
-
-        currTurret = buildManager.BuildTurretOn(this);   //Alle Checks durch, baue Turm
-
-        if (currTurret != null)
-        {
-            _mode = NodeMode.IsBuilt;
-            UpdateNodeColor();
+        if (turretScript != null) {
+            if (turretScript.canUpgrade())
+            {
+                turretScript.tryUpgrade();
+            }
+        }else {
+            _currTurret = buildManager.BuildTurretOn(this);   //Alle Checks durch, baue Turm
+            if (_currTurret != null) {
+                turretScript = _currTurret.GetComponentInChildren<Turret>();
+                _mode = NodeMode.IsBuilt;
+                UpdateNodeColor();
+            }
+            ApplySpecialBonus();
         }
-        ApplySpecialBonus();
     }
 
     public Vector3 GetBuildPosition()
@@ -108,13 +112,13 @@ public class Node : MonoBehaviour
 
             //Das Feld ist bebaut
             case NodeMode.IsBuilt:
-                Debug.Log("ChangeToUpgradeScreen" + _mode.ToString());
-                Shop.Instance.ChangeToUpgradeScreen(currTurret);
+//                Debug.Log("ChangeToUpgradeScreen" + _mode.ToString());
+                Shop.Instance.ChangeToUpgradeScreen(turretScript);
                 break;
         }
 
         if (_mode != NodeMode.IsBuilt) {
-            Debug.Log("ChangeToBuyScreen" + _mode.ToString());
+       //     Debug.Log("ChangeToBuyScreen" + _mode.ToString());
             Shop.Instance.ChangeToBuyScreen();
         }
     }
@@ -163,7 +167,7 @@ public class Node : MonoBehaviour
                 break;
         }
 
-        if (isSelected) {
+        if (_isSelected) {
             _rend.material.color = selectColor;
         }
     }

@@ -21,26 +21,36 @@ public class Shop : MonoBehaviour
     [SerializeField] Button fridgeTurrButton;
     [SerializeField] Button ovenTurrButton;
     
-    [Header("Button Buyscreen")]
+    [Header("Buy Price Texts")]
+    [SerializeField] private TextMeshProUGUI[] buyTextArray;
+
+    [Header("Button Upgradescreen")]
     [SerializeField] Button upgradeLeft;
     [SerializeField] Button upgradeMid;
     [SerializeField] Button upgradeRight;
     
+    [Header("Upgrade Price Texts")]
+    [SerializeField] private TextMeshProUGUI[] upgradeTextArray;
+
     [Header("Colours")]
     [SerializeField] Color selectedColor;
     [SerializeField] Color notSelectedColor;
-
+    
+    [Header("Turret Blueprints")]
     [SerializeField] private TurretBlueprint microwaveTurret;
     [SerializeField] private TurretBlueprint fridgeTurret;
     [SerializeField] private TurretBlueprint ovenTurret;
-
+    
+    private Turret turrScript;
     private BuildManager buildManager;
+    
     private int _currentBuyItem = 0;
-    private int _currentUpgradeItem = 0;
-    private int _amountOfShopItems = 2;
+    private int _currentUpgradeItem = 3;
+    private int _amountOfShopItems = 3;
 
     private float currComboTime = 0;
-
+    public static int currentSelectedUpgrade = 0;
+    
     private enum ScreenMode
     {
         BuyScreen = 0,
@@ -90,10 +100,11 @@ public class Shop : MonoBehaviour
         UpdateUIConfig();
     }
 
-    public void ChangeToUpgradeScreen(GameObject turretGameObject) {
+    public void ChangeToUpgradeScreen(Turret newTurrScript)
+    {
+        turrScript = newTurrScript;
         _currScreenMode = ScreenMode.UpgradeScreen;
         UpdateUIConfig();
-        //Hiest mit dem Turret die Upgradetexte bef�llen
     }
 
     private void UpdateUIConfig() {
@@ -109,6 +120,8 @@ public class Shop : MonoBehaviour
                 UpgradeScreen.SetActive(true);
                 break;
         }
+
+        UpdateValues();
     }
 
     public void SelectNext() {
@@ -119,6 +132,7 @@ public class Shop : MonoBehaviour
                 break;
             case ScreenMode.UpgradeScreen:
                 _currentUpgradeItem++;
+                currentSelectedUpgrade = _currentUpgradeItem;
                 UpdateUpgradeScreen();
                 break;
         }
@@ -184,6 +198,23 @@ public class Shop : MonoBehaviour
                 upgradeRight.colors = cb;
                 break;
         }
+
     }
-    
+
+    public void UpdateValues()
+    {
+        switch (_currScreenMode) {
+            case ScreenMode.BuyScreen:
+                buyTextArray[0].text = microwaveTurret.cost.ToString() + " $";
+                buyTextArray[1].text = fridgeTurret.cost.ToString() + " $";
+                buyTextArray[2].text = ovenTurret.cost.ToString() + " $";
+                break;
+            case ScreenMode.UpgradeScreen:
+                for (int element = 0; element < upgradeTextArray.Length; element++)
+                {
+                    upgradeTextArray[element].text = turrScript.upgradePrice[element].ToString() + " $";
+                }
+                break;
+        }
+    }
 }

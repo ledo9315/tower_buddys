@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
@@ -7,6 +8,7 @@ public class Turret : MonoBehaviour
     
     [Header("Attributes")]
     [SerializeField] private float range = 15f;
+    [SerializeField] private int fireDamage = 40;
     [SerializeField] private float fireRate = 1f;
     [SerializeField] private float fieldOfView = 30f; // Sichtfeld (Grad)
     
@@ -22,6 +24,8 @@ public class Turret : MonoBehaviour
 
     // LineRenderer für den Bereich
     private LineRenderer lineRenderer;
+
+    public int[] upgradePrice = {50, 50, 50};
 
     private void Start()
     {
@@ -107,7 +111,7 @@ public class Turret : MonoBehaviour
 
         if (bullet)
         {
-            bullet.Seek(target);
+            bullet.Seek(target, fireDamage);
         }
     }
 
@@ -141,4 +145,37 @@ public class Turret : MonoBehaviour
         lineRenderer.SetPositions(points);
     }
 
+
+    public bool canUpgrade()
+    {
+        return (Shop.currentSelectedUpgrade % 3) switch
+        {
+            0 => upgradePrice[0] < PlayerStats.Money,
+            1 => upgradePrice[1] < PlayerStats.Money,
+            2 => upgradePrice[2] < PlayerStats.Money,
+            _ => false
+        };
+    }
+
+    public void tryUpgrade()
+    {
+        switch (Shop.currentSelectedUpgrade % 3)
+        {
+            case 0:
+                PlayerStats.Money -= upgradePrice[0];
+                upgradePrice[0] = Convert.ToInt32(upgradePrice[0] * 1.15);
+                fireDamage += 20;
+                break;
+            case 1:
+                PlayerStats.Money -= upgradePrice[1];
+                upgradePrice[1] = Convert.ToInt32(upgradePrice[1] * 1.2);
+                fieldOfView += 10f;
+                break;
+            case 2:
+                PlayerStats.Money -= upgradePrice[2];
+                upgradePrice[2] = Convert.ToInt32(upgradePrice[2] * 1.15);
+                fireRate += 1f;
+                break;
+        }
+    }
 }

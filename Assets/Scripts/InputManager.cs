@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -73,7 +74,8 @@ public class InputManager : MonoBehaviour
 
         if (!cb.started) return;//Siehe Doku bei UseOfMovement
 
-        if (_inRunningGame && nodeManager != null) nodeManager.BuildOnSelectedNode();
+        if (_inRunningGame && nodeManager != null) nodeManager.ActionOnSelectedNode();
+       GameObject.FindGameObjectWithTag("Shop").GetComponent<Shop>().UpdateValues();
     }
 
     public void UseOfOptionButton(CallbackContext cb)

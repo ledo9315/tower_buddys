@@ -8,6 +8,7 @@ TagManager:
   - Node
   - Teleportable
   - rightController
+  - Shop
   layers:
   - Default
   - TransparentFX

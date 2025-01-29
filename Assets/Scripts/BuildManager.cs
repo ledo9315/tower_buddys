@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
@@ -20,8 +21,8 @@ public class BuildManager : MonoBehaviour
     public GameObject BuildTurretOn(Node node)
     {
 
-        //TODO Bitte lass uns das ändern. Warum ist die Logik zum Überprüfen, ob man genug Geld hat
-        //Nicht im Script, welches sich ums Geld kümmern sollte.
+        //TODO Bitte lass uns das ï¿½ndern. Warum ist die Logik zum ï¿½berprï¿½fen, ob man genug Geld hat
+        //Nicht im Script, welches sich ums Geld kï¿½mmern sollte.
         if (PlayerStats.Money < turretToBuild.cost)
         {
             Debug.Log("Not enough money");
@@ -29,9 +30,9 @@ public class BuildManager : MonoBehaviour
         }
 
         PlayerStats.Money -= turretToBuild.cost;
-        
+        turretToBuild.cost = Convert.ToInt32(turretToBuild.cost * 1.3);
         GameObject turret = Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
-
+        
         Debug.Log("Turret build! Money left: " + PlayerStats.Money);
         return turret;
     }

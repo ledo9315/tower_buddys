@@ -9,12 +9,22 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float explosionRadius = 0f;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private float timeOfImpactEffect = 2f;
-    private int damage = 40;
-    
-    public void Seek(Transform tar, int assignedDamage)
+    [SerializeField] private GameObject[] bullets;
+    private int effectStrength = 40;
+    private bool isDamage = true;
+    public void Seek(Transform tar, int assignedEffectStrength, bool assignedIsDamage)
     {
         _target = tar;
-        damage = assignedDamage;
+        effectStrength = assignedEffectStrength;
+        isDamage = assignedIsDamage;
+        if (isDamage)
+        {
+            bullets[0].SetActive(true);
+        }
+        else
+        {
+            bullets[1].SetActive(true);
+        }
     }
 
     private void Update()
@@ -42,33 +52,15 @@ public class Bullet : MonoBehaviour
 
     void Hit_target()
     {
-
-        if (explosionRadius > 0f)
-        {
-            Explode();
-        } else
-        {
-            Damage(_target);
+        Debug.Log(isDamage);
+        if (isDamage) {
+            _target.GetComponent<Enemy>().isHit(effectStrength);
         }
-        
+        else
+        {
+            _target.GetComponent<Enemy>().isSlowed(effectStrength);
+        }
         Destroy(gameObject);
-    }
-
-    void Explode()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider col in colliders)
-        {
-            if (col.CompareTag("Enemy"))
-            {
-                Damage(col.transform);
-            }
-        }
-    }
-
-    void Damage(Transform enemy)
-    {
-        enemy.GetComponent<Enemy>().isHit(damage);
     }
 
     private void OnDrawGizmosSelected()

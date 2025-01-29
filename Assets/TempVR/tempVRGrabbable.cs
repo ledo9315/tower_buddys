@@ -12,7 +12,7 @@ public class tempVRGrabbable : MonoBehaviour
     void Update()
     {
         //Code von https://discussions.unity.com/t/keeping-distance-between-two-gameobjects/47792
-
+        
         _selfTransform.position = (_selfTransform.position - _rotPoint.position).normalized * _radius + _rotPoint.position;
     }
 

@@ -41,6 +41,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private TurretBlueprint fridgeTurret;
     [SerializeField] private TurretBlueprint ovenTurret;
     
+    [SerializeField] private TextMeshProUGUI lastUpgradeText;
     private Turret turrScript;
     private BuildManager buildManager;
     
@@ -213,6 +214,14 @@ public class Shop : MonoBehaviour
                 for (int element = 0; element < upgradeTextArray.Length; element++)
                 {
                     upgradeTextArray[element].text = turrScript.upgradePrice[element].ToString() + " $";
+                }
+                if (turrScript.turretType == 1)
+                {
+                    lastUpgradeText.text = "Range";
+                }
+                else
+                {
+                    lastUpgradeText.text = "Fire Rate";
                 }
                 break;
         }

@@ -32,7 +32,7 @@ public class BuildManager : MonoBehaviour
         PlayerStats.Money -= turretToBuild.cost;
         turretToBuild.cost = Convert.ToInt32(turretToBuild.cost * 1.3);
         GameObject turret = Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
-        
+        turret.GetComponentInChildren<Turret>().setTurretType(turretToBuild.turretType);
         Debug.Log("Turret build! Money left: " + PlayerStats.Money);
         return turret;
     }

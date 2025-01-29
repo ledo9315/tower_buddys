@@ -21,10 +21,12 @@ public class Turret : MonoBehaviour
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
-
+    [SerializeField] private GameObject[] turretModel;
+    
     // LineRenderer für den Bereich
     private LineRenderer lineRenderer;
-
+    private bool isDamage = true;
+    public int turretType = 0;
     public int[] upgradePrice = {50, 50, 50};
 
     private void Start()
@@ -65,10 +67,18 @@ public class Turret : MonoBehaviour
 
         if (_fireCountdown <= 0f)
         {
-            Shoot();
-            _fireCountdown = 1f / fireRate;
+            switch (turretType)
+            {
+                case 0:
+                    Shoot();
+                    _fireCountdown = 1f / fireRate;
+                    break;
+                case 2:
+                    Shoot();
+                    _fireCountdown = 1f / fireRate;
+                    break;
+            }
         }
-
         _fireCountdown -= Time.deltaTime;
     }
 
@@ -80,17 +90,24 @@ public class Turret : MonoBehaviour
 
         foreach (var enemy in enemies)
         {
-            float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distanceToEnemy > range) continue;
-
-            Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
-            Vector3 forwardDirection = GeneralTurretRotation.forward;
-            float angleToEnemy = Vector3.Angle(forwardDirection, directionToEnemy);
-
-            if (angleToEnemy <= fieldOfView && distanceToEnemy < shortestDistance)
+            if (turretType != 1)
             {
-                shortestDistance = distanceToEnemy;
-                nearestEnemy = enemy;
+                float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
+                if (distanceToEnemy > range) continue;
+
+                Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
+                Vector3 forwardDirection = GeneralTurretRotation.forward;
+                float angleToEnemy = Vector3.Angle(forwardDirection, directionToEnemy);
+
+                if (angleToEnemy <= fieldOfView && distanceToEnemy < shortestDistance)
+                {
+                    shortestDistance = distanceToEnemy;
+                    nearestEnemy = enemy;
+                }
+            }
+            else
+            {
+                enemy.GetComponent<Enemy>().isHit(fireDamage);
             }
         }
 
@@ -111,7 +128,7 @@ public class Turret : MonoBehaviour
 
         if (bullet)
         {
-            bullet.Seek(target, fireDamage);
+            bullet.Seek(target, fireDamage, isDamage);
         }
     }
 
@@ -174,8 +191,28 @@ public class Turret : MonoBehaviour
             case 2:
                 PlayerStats.Money -= upgradePrice[2];
                 upgradePrice[2] = Convert.ToInt32(upgradePrice[2] * 1.15);
-                fireRate += 1f;
+                if (turretType == 1)
+                {
+                    range += 1;
+                }
+                else
+                {
+                    fireRate += 1f;
+                }
                 break;
         }
+    }
+
+    public void setTurretType(int newTurretType)
+    {
+        turretType = newTurretType;
+        turretModel[turretType].SetActive(true);
+        isDamage = turretType != 2;
+        if (turretType == 1)
+        {
+            fireDamage = 2;
+            range = 8f;
+        }
+        
     }
 }

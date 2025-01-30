@@ -192,6 +192,7 @@ public class Turret : MonoBehaviour
                 PlayerStats.Money -= upgradePrice[1];
                 upgradePrice[1] = Convert.ToInt32(upgradePrice[1] * 1.6);
                 fieldOfView += 14f;
+                //FÜR CHRISTOPGJHER
                 break;
             case 2:
                 PlayerStats.Money -= upgradePrice[2];
@@ -202,7 +203,7 @@ public class Turret : MonoBehaviour
                 }
                 else
                 {
-                    fireRate += 0.4f;
+                    fireRate += 0.8f;
                 }
                 break;
         }
@@ -217,6 +218,8 @@ public class Turret : MonoBehaviour
         {
             range = 8f;
             fieldOfView = 35f;
+            //FÜR CHRISTOPGJHER
+
         }
         
     }

@@ -1,5 +1,6 @@
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Color = UnityEngine.Color;
 
 public class RaycastExample : MonoBehaviour
@@ -67,7 +68,9 @@ public class RaycastExample : MonoBehaviour
                         {
                             zHeight = -2f;
                         }
-
+                        
+                        if (hit.collider.gameObject.name == "EscapeHitbox") SceneManager.LoadScene(0);
+                        
                         canTeleport = true;
                         if (TeleportRenderer != null && TeleportRenderer != hit.collider.gameObject.GetComponent<MeshRenderer>())
                         {

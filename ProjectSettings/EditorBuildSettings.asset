@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/mainMenu.unity
     guid: a36be462a8f659e41b8d7291a1a45937
   - enabled: 1
+    path: Assets/Scenes/EndlessLevel.unity
+    guid: 20024ba5ae90c0c4384677470db478d3
+  - enabled: 1
+    path: Assets/Scenes/SandboxSzene.unity
+    guid: 2ccfd8096c6da7245b574eef181966d5
+  - enabled: 0
     path: Assets/Scenes/Level-01.unity
     guid: f185bf2bf9a638d408d5fbf082fbd189
   m_configObjects:

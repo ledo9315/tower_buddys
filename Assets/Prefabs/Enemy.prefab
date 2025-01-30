@@ -69,7 +69,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ebd7530c8df0842b9b2e873e875a9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalSpeed: 3
   stages:
   - {fileID: 2232092512637911938}
   - {fileID: 3338129591983758910}
@@ -254,10 +253,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f800c1c4e76c5654c9f4bfe25d680a05, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 84bd033c08d06ac409787384918e13bc, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 1.61
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -438,7 +437,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 84bd033c08d06ac409787384918e13bc, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.86
   Loop: 0
   Mute: 0
   Spatialize: 0

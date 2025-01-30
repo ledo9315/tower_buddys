@@ -890,10 +890,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f551796feee2a054d98d0226a935b2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 30
-  fireDamage: 40
-  fireRate: 1
-  fieldOfView: 30
+  range: 28
+  fireDamage: 10
+  fireRate: 2
+  fieldOfView: 15
   enemyTag: Enemy
   GeneralTurretRotation: {fileID: 971032499407507441}
   ActiveTurretRotation: {fileID: 2792947871630277796}

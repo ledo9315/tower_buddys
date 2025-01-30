@@ -10,7 +10,7 @@ public class NodeManager : MonoBehaviour
     [SerializeField] int zNodes;
     Node[,] nodeArr;
     Vector2Int currSelected = new(0, 0);
-    private float newMoneytimer = 2.5f;
+    private float newMoneytimer = 2.3f;
     private float currentMoneyTimer = 0;
     
     void Start()

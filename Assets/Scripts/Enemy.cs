@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float originalSpeed = 4;
+    private float originalSpeed = 4;
     private float currSpeed = 0;
     private Transform _target;
     private int _wavePointIndex;
@@ -58,6 +58,11 @@ public class Enemy : MonoBehaviour
         this.origHealth = health;
     }
 
+    public void setSpeedMultiplier(float speedMultiplier)
+    {
+        originalSpeed *= speedMultiplier;
+    }
+
     public void isHit(float damage)
     {
         health -= damage;
@@ -72,6 +77,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            PlayerStats.IncreaseMoney(6);
             stages[1].SetActive(false);
             stages[2].SetActive(true);
             this.tag = "Untagged";
@@ -82,6 +88,7 @@ public class Enemy : MonoBehaviour
     public void isSlowed(float effect)
     {
         slowedTimer = 4;
-        currSpeed = originalSpeed / (effect / 16f);
+        Debug.Log(effect);
+        currSpeed = originalSpeed / (effect / 4f);
     }
 }

@@ -52,7 +52,6 @@ public class Bullet : MonoBehaviour
 
     void Hit_target()
     {
-        Debug.Log(isDamage);
         if (isDamage) {
             _target.GetComponent<Enemy>().isHit(effectStrength);
         }

@@ -22,7 +22,7 @@ public class RaycastExample : MonoBehaviour
     
     private MeshRenderer TeleportRenderer;
 
-    
+    private float zHeight = -2f;
     void Start()
     {
         // LineRenderer-Komponente hinzufügen, falls sie noch nicht existiert
@@ -59,6 +59,15 @@ public class RaycastExample : MonoBehaviour
                     lineRenderer.SetPosition(1, hit.point);               // Endpunkt des Raycasts (Treffpunkt)
                     if (hit.collider.CompareTag("Teleportable"))
                     {
+                        if (hit.collider.gameObject.name == "AusguckHitbox")
+                        {
+                            zHeight = 2f;
+                        }
+                        else
+                        {
+                            zHeight = -2f;
+                        }
+
                         canTeleport = true;
                         if (TeleportRenderer != null && TeleportRenderer != hit.collider.gameObject.GetComponent<MeshRenderer>())
                         {
@@ -118,5 +127,7 @@ public class RaycastExample : MonoBehaviour
     {
         return hitLocation;
     }
+    
+    public float getZHeight => zHeight;
 }
 

@@ -103,7 +103,7 @@ public class InputManager : MonoBehaviour
             if (ctrl.GetComponent<RaycastExample>().CheckIfTeleportable())
             {
                 Vector3 newPos = ctrl.GetComponent<RaycastExample>().getRaycastHitLocation();
-                newPos.y = turretPlayerHeight;
+                newPos.y = ctrl.GetComponent<RaycastExample>().getZHeight;
                 playerOrigin.GetComponent<Transform>().position = newPos;
             }
         }

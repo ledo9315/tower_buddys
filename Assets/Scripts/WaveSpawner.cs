@@ -15,6 +15,7 @@ using System.Collections;
     private float _countdown = 2f;
     private int _waveIndex;
     private int _currentWave;
+    private float health = 100f;
 
     public static Action<int> OnNewWaveLoaded;
 
@@ -23,7 +24,7 @@ using System.Collections;
         if (_countdown <= 0f)
         {
             StartCoroutine(SpawnWave());
-            _countdown = timeBetweenWaves;
+            _countdown = timeBetweenWaves + timeBetweenEnemies * _currentWave;
 
             if (!PlayerStats.checkIfIntro())
             {
@@ -55,7 +56,7 @@ using System.Collections;
 
         for (int i = 0; i < (_waveIndex); i++)
         {
-            SpawnEnemy(78 + _waveIndex * _waveIndex);
+            SpawnEnemy(100 + (_waveIndex + 4) * _waveIndex);
             yield return new WaitForSeconds(timeBetweenEnemies);
         }
     }
@@ -64,6 +65,7 @@ using System.Collections;
     {
         GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation).gameObject;
         enemy.GetComponent<Enemy>().setHealth(health);
+        enemy.GetComponent<Enemy>().setSpeedMultiplier(1 + (_currentWave / 20));
         GameObject enemiesParent = GameObject.Find("Enemys");
         if (enemiesParent)
         {

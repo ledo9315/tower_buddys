@@ -107,7 +107,7 @@ public class Turret : MonoBehaviour
             }
             else
             {
-                if (angleToEnemy <= fieldOfView) enemy.GetComponent<Enemy>().isHit(fireDamage * Time.deltaTime * 3f);
+                if (angleToEnemy <= fieldOfView) enemy.GetComponent<Enemy>().isHit(fireDamage * Time.deltaTime * 30f);
             }
         }
 
@@ -180,24 +180,29 @@ public class Turret : MonoBehaviour
         {
             case 0:
                 PlayerStats.Money -= upgradePrice[0];
-                upgradePrice[0] = Convert.ToInt32(upgradePrice[0] * 1.15);
-                fireDamage += 20;
+                upgradePrice[0] = Convert.ToInt32(upgradePrice[0] * 1.4);
+                fireDamage += 8;
+                if (turretType == 1)
+                {
+                    fireDamage -= 2;
+                }
+
                 break;
             case 1:
                 PlayerStats.Money -= upgradePrice[1];
-                upgradePrice[1] = Convert.ToInt32(upgradePrice[1] * 1.2);
-                fieldOfView += 10f;
+                upgradePrice[1] = Convert.ToInt32(upgradePrice[1] * 1.6);
+                fieldOfView += 14f;
                 break;
             case 2:
                 PlayerStats.Money -= upgradePrice[2];
-                upgradePrice[2] = Convert.ToInt32(upgradePrice[2] * 1.15);
+                upgradePrice[2] = Convert.ToInt32(upgradePrice[2] * 1.4);
                 if (turretType == 1)
                 {
                     range += 1;
                 }
                 else
                 {
-                    fireRate += 1f;
+                    fireRate += 0.4f;
                 }
                 break;
         }
@@ -211,6 +216,7 @@ public class Turret : MonoBehaviour
         if (turretType == 1)
         {
             range = 8f;
+            fieldOfView = 35f;
         }
         
     }

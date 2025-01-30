@@ -8,7 +8,7 @@ public class Turret : MonoBehaviour
     
     [Header("Attributes")]
     [SerializeField] private float range = 15f;
-    [SerializeField] private int fireDamage = 40;
+    [SerializeField] private float fireDamage = 40;
     [SerializeField] private float fireRate = 1f;
     [SerializeField] private float fieldOfView = 30f; // Sichtfeld (Grad)
     
@@ -90,15 +90,15 @@ public class Turret : MonoBehaviour
 
         foreach (var enemy in enemies)
         {
+            float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distanceToEnemy > range) continue;
+            
+            Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
+            Vector3 forwardDirection = GeneralTurretRotation.forward;
+            float angleToEnemy = Vector3.Angle(forwardDirection, directionToEnemy);
+            
             if (turretType != 1)
             {
-                float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-                if (distanceToEnemy > range) continue;
-
-                Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
-                Vector3 forwardDirection = GeneralTurretRotation.forward;
-                float angleToEnemy = Vector3.Angle(forwardDirection, directionToEnemy);
-
                 if (angleToEnemy <= fieldOfView && distanceToEnemy < shortestDistance)
                 {
                     shortestDistance = distanceToEnemy;
@@ -107,7 +107,7 @@ public class Turret : MonoBehaviour
             }
             else
             {
-                enemy.GetComponent<Enemy>().isHit(fireDamage);
+                if (angleToEnemy <= fieldOfView) enemy.GetComponent<Enemy>().isHit(fireDamage * Time.deltaTime * 3f);
             }
         }
 
@@ -210,7 +210,6 @@ public class Turret : MonoBehaviour
         isDamage = turretType != 2;
         if (turretType == 1)
         {
-            fireDamage = 2;
             range = 8f;
         }
         

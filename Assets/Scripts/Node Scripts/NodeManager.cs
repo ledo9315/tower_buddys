@@ -9,7 +9,7 @@ public class NodeManager : MonoBehaviour
     [SerializeField] int xNodes;
     [SerializeField] int zNodes;
     Node[,] nodeArr;
-    Vector2Int currSelected = new(7, 7);
+    Vector2Int currSelected = new(0, 0);
     private float newMoneytimer = 2.5f;
     private float currentMoneyTimer = 0;
     
@@ -47,8 +47,10 @@ public class NodeManager : MonoBehaviour
         //Wenn nein, du hast dein Feld gefunden
 
         bool xPosFound = false;
+        Debug.Log(xPos + " " + yPos);
         while (xPos >= 0 && xPos < xNodes && !xPosFound)
         {
+            Debug.Log(nodeArr[xPos, currSelected.y] == null);
             if (nodeArr[xPos, currSelected.y] == null)
             {
                 xPos += dir.x;

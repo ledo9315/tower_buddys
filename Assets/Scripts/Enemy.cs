@@ -6,8 +6,8 @@ public class Enemy : MonoBehaviour
     private float currSpeed = 0;
     private Transform _target;
     private int _wavePointIndex;
-    private int origHealth;
-    private int health = 100;
+    private float origHealth;
+    private float health = 100;
     private float slowedTimer = 0;
     
     [SerializeField] private GameObject[] stages;
@@ -52,13 +52,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void setHealth(int health)
+    public void setHealth(float health)
     {
         this.health = health;
         this.origHealth = health;
     }
 
-    public void isHit(int damage)
+    public void isHit(float damage)
     {
         health -= damage;
         float healthPercent = (float)health / origHealth;
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void isSlowed(int effect)
+    public void isSlowed(float effect)
     {
         slowedTimer = 4;
         currSpeed = originalSpeed / (effect / 16f);

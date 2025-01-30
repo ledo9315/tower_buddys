@@ -48,9 +48,10 @@ public class InputManager : MonoBehaviour
 
         //Wird eine Taste gedr�ckt, dann wird diese Methode hier mehrere Male aufgerufen. Hier wird returned, wenn der Knopf nicht gerade
         //gedr�ckt wurde https://discussions.unity.com/t/player-input-component-triggering-events-multiple-times/781922
+        Debug.Log("1. Float x: " + mvValFloat.x);
+        Debug.Log("1. Float Y: " + mvValFloat.y);
         if (!cb.started) return;
-
-
+        
         //Wert wird auf Int gerundet, um evtl. Joystick-Probleme zu umgehen.
         //int xVal = (int)Math.Round(mvValFloat.x);
         //int yVal = (int)Math.Round(mvValFloat.y);
@@ -62,8 +63,8 @@ public class InputManager : MonoBehaviour
 
         Vector2Int mvValInt = new Vector2Int(xVal, yVal);
 
-        //Debug.Log("Float x: " + mvValFloat.x + " Int x: " + xVal);
-        //Debug.Log("Float Y: " + mvValFloat.y + " Int y: " + yVal);
+        Debug.Log("2. Float x: " + mvValFloat.x + " Int x: " + xVal);
+        Debug.Log("2. Float Y: " + mvValFloat.y + " Int y: " + yVal);
 
         //L�uft das Game und existiert der Nodemanager, so wird die neue Node ausgew�hlt
         if (_inRunningGame && nodeManager != null) nodeManager.SelectNewNode(mvValInt);

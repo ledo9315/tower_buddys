@@ -10,9 +10,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private float timeOfImpactEffect = 2f;
     [SerializeField] private GameObject[] bullets;
-    private int effectStrength = 40;
+    private float effectStrength = 40;
     private bool isDamage = true;
-    public void Seek(Transform tar, int assignedEffectStrength, bool assignedIsDamage)
+    public void Seek(Transform tar, float assignedEffectStrength, bool assignedIsDamage)
     {
         _target = tar;
         effectStrength = assignedEffectStrength;
